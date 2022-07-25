@@ -11,14 +11,14 @@
       <router-link
         :class="[badgeClasses('Count_Up')]"
         to="/count_up"
-        title="Abzählen"
+        :title="verboseNameByName('Count_Up')"
       >
         <img class="count_up_img" :src="currentBadgeByName('Count_Up')" />
       </router-link>
       <router-link
         :class="[badgeClasses('Quantity_Equality')]"
         to="/quantity_equality"
-        title="Mengengleichheit"
+        :title="verboseNameByName('Quantity_Equality')"
       >
         <img
           :class="[imageClasses('Quantity_Equality')]"
@@ -28,7 +28,7 @@
       <router-link
         :class="[badgeClasses('One_Look')]"
         to="/one_look"
-        title="Simultanerfassung"
+        :title="verboseNameByName('One_Look')"
       >
         <img
           :class="[imageClasses('One_Look')]"
@@ -38,7 +38,7 @@
       <router-link
         :class="[badgeClasses('Add_Quantities')]"
         to="/add_quantities"
-        title="Mengen ergänzen"
+        :title="verboseNameByName('Add_Quantities')"
       >
         <img
           v-bind:class="[imageClasses('Add_Quantities')]"
@@ -48,7 +48,7 @@
       <router-link
         :class="[badgeClasses('Complete_Seriation')]"
         to="/complete_seriation"
-        title="Seriation"
+        :title="verboseNameByName('Complete_Seriation')"
       >
         <img
           :class="[imageClasses('Complete_Seriation')]"
@@ -58,7 +58,7 @@
       <router-link
         :class="[badgeClasses('Quantity_Comparison')]"
         to="/quantity_comparison"
-        title="Mengenvergleich"
+        :title="verboseNameByName('Quantity_Comparison')"
       >
         <img
           :class="[imageClasses('Quantity_Comparison')]"
@@ -68,7 +68,7 @@
       <router-link
         :class="[badgeClasses('Where_Is')]"
         to="/where_is"
-        title="Orientierung"
+        :title="verboseNameByName('Where_Is')"
       >
         <img
           :class="[imageClasses('Where_Is')]"
@@ -78,19 +78,21 @@
       <router-link
         :class="[badgeClasses('Reduce_Quantities')]"
         to="/reduce_quantities"
-        title="Mengen reduzieren"
+        :title="verboseNameByName('Reduce_Quantities')"
       >
         <img
           :class="[imageClasses('Reduce_Quantities')]"
           :src="currentBadgeByName('Reduce_Quantities')"
         />
       </router-link>
-      <img
-        v-if="areAllGamesCompleted && areTestsSufficientlyResolved"
-        class="badge isGood"
-        src="../assets/kid_has_no_problems.svg"
-        alt=""
-      />
+      <router-link class="badge completedAllGames" to="/eval">
+        <img
+          v-if="areAllGamesCompleted"
+          class=""
+          src="../assets/completedGamesIndicator.svg"
+          alt="All games completed"
+        />
+      </router-link>
     </div>
   </div>
 </template>
@@ -108,7 +110,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(useMainStore, ["completedGames", "badgeIndexes", "areTestsSufficientlyResolved", "currentBadgeByName", "areAllGamesCompleted", "nextGame"]),
+    ...mapState(useMainStore, [
+      "completedGames",
+      "badgeIndexes",
+      "areTestsSufficientlyResolved",
+      "currentBadgeByName",
+      "verboseNameByName",
+      "areAllGamesCompleted",
+      "nextGame"
+    ]),
   },
   methods: {
     badgeClasses(badgeName) {
@@ -229,7 +239,7 @@ export default {
   max-width: 20vw;
 }
 
-.isGood {
+.completedAllGames {
   grid-area: 28 / 29 / auto / auto;
   transform: scale(0.5);
   max-height: 10vh;
